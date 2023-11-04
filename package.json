@@ -1,0 +1,19 @@
+{
+  "name": "react-node-template",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cd src/server && npm install && npm start",
+    "dev": "concurrently \"cd src/server && nodemon\" \"cd src/client && npm start\"",
+    "logs": "heroku logs -t",
+    "heroku-postbuild": "cd src/client && npm install && npm run build"
+  },
+  "dependencies": {
+    "nodemon": "^3.0.1",
+    "concurrently": "8.2.2"
+  },
+  "engines": {
+    "node": ">=12.16.1",
+    "npm": ">=6.13.4"
+  }
+}
