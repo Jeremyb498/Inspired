@@ -25,7 +25,7 @@ router.get("/users", function(req, res, next) {
 });
 
 /* GET Search Terms. */
-router.get("/searchTerm/:term/", function(req, res, next) {
+router.get("/searchTerm/:term", function(req, res, next) {
     console.log('get "searchTerm" route hit');
 
     // Query every.org API
