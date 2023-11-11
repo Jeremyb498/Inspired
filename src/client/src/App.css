@@ -22,7 +22,7 @@ p {
 }
 
 body {
-  background-color: #d7fffd;
+  background-color: #ffffff;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -52,3 +52,130 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Nav bar */
+
+.App-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e39234; /* Blue color for the nav bar */
+  padding: 10px;
+}
+
+.App-nav-logo {
+  display: flex;
+  align-items: center;
+  color: white; /* White color for the text */
+  text-decoration: none; /* Removes underline from the link */
+}
+
+.App-logo, .App-profile-icon {
+  height: 30px; /* Adjust the size as needed */
+  margin-right: 10px;
+}
+
+.App-nav-item {
+  color: white; /* White color for the text */
+  text-decoration: none; /* Removes underline from the link */
+  padding: 10px 20px;
+}
+
+/* You may want to add :hover styles for the links for better user experience */
+.App-nav-item:hover, .App-nav-logo:hover {
+  opacity: 0.7;
+}
+
+/* Home Page */
+
+.App-content-box {
+  border: 1px solid #ccc; /* Light grey border */
+  margin: 20px auto; /* Vertically stays the same, horizontally centered */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Drop shadow for depth */
+  max-width: 50%; /* Takes most but not all of the page width */
+  
+}
+
+.App-content-box h2 {
+  font-weight: bold;
+  margin-bottom: 10px; /* Space between the heading and the description */
+}
+
+.App-content-box p {
+  font-size: 1.2rem; /* Increase the size of the description text */
+  margin-bottom: 20px; /* Spacing between paragraphs if needed */
+}
+
+/* Profile */
+
+
+.Profile-container {
+  display: flex;
+  padding: 20px;
+}
+
+.Profile-side {
+  width: 33%;
+  margin-right: 20px; /* Spacing between the two boxes */
+  border: 1px solid #ccc; /* Light grey border */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds shadow for depth */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally */
+  
+}
+
+.Profile-icon-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the icon horizontally */
+  width: 100%; /* Use the full width of the container */
+  padding: 20px; /* Add padding to ensure some space around the icon */
+  overflow: hidden; /* Prevents the icon from overflowing its container */
+}
+
+.Profile-icon {
+  max-width: 100%; /* Allows the icon to be as wide as possible */
+  max-height: 100%; /* Allows the icon to be as tall as possible */
+  height: auto; /* Maintain the aspect ratio */
+  width: auto; /* Maintain the aspect ratio */
+}
+
+.Profile-username {
+  border-radius: 20px; /* Rounded borders */
+  border: 1px solid #ccc; /* Light grey border */
+  padding: 10px;
+  margin-top: 20px; /* Spacing between icon and input */
+  box-sizing: border-box;
+  width: calc(100% - 40px); /* Subtract the padding from the total width */
+  max-width: 300px;
+}
+
+.Profile-main {
+  width: 66%;
+  border: 1px solid #ccc; /* Light grey border */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds shadow for depth */
+}
+
+.Profile-stars-header {
+  display: flex;
+  align-items: center;
+}
+
+.Profile-star-icon {
+  margin-right: 10px; /* Spacing between star icon and the 'Stars' heading */
+}
+
+.Profile-divider {
+  border: none;
+  height: 1px;
+  background-color: #ccc; /* Light grey line */
+  margin: 20px 0; /* Spacing above and below the line */
+}
+
+
+

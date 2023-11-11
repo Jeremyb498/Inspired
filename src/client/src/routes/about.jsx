@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ".././App.css";
 
 export default function About() {
@@ -8,7 +9,12 @@ export default function About() {
     return (
         <div className="App">
         <header className="App-header">
-            <a href = {`/`}>Home Page</a>
+            {/* <a href = {`/`}>Root</a> | <a href={'/Home'}>Home</a> */}
+
+            <nav>
+              <Link to="/">Root</Link> | <Link to="/Home">Home</Link>
+            </nav>
+
             <h1>About Page</h1>
           
             <p>
@@ -17,8 +23,10 @@ export default function About() {
                 The goal is to protoype an application where individuals can search for
                 and find NonProfits that mean something to them.
             </p>
-
+            
         </header>
       </div>
     );
   }
+
+  // TEST
