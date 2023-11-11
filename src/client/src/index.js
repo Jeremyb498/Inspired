@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import Root from "./routes/root";
 import About from "./routes/about";
 import Home from "./routes/home";
+import Profile from './routes/profile'
 
 import {
     createBrowserRouter,
@@ -30,6 +31,11 @@ const router = createBrowserRouter([
         element: <Home />,
         
     },
+    {
+        path: "/Profile",
+        element: <Profile />,
+
+      },
 ]);
 
 ReactDOM.render(<RouterProvider router={router} />, document.getElementById('root'));
