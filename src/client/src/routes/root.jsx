@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import logo from ".././react-logo.svg";
 import nodejsLogo from ".././nodejs-logo.svg";
+import { Link } from "react-router-dom";
 import ".././App.css";
 
 export default function Root() {
@@ -80,8 +81,13 @@ export default function Root() {
         </header>
   
           <h1> Hello Programmers!! </h1>
-          <a href = {`/About`}>About Us</a>
-  
+          {/* <a href = {`/About`}>About Us</a> | <a href={'/Home'}>Home</a> */}
+          
+          <nav>
+            <Link to="/About">About</Link> | <Link to="/Home">Home</Link>
+          </nav>
+
+
       </div>
     );
   }

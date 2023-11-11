@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 // Import Pages From "./routes" folder
 import Root from "./routes/root";
 import About from "./routes/about";
+import Home from "./routes/home";
 
 import {
     createBrowserRouter,
@@ -22,6 +23,11 @@ const router = createBrowserRouter([
     {
         path: "/About",
         element: <About />,
+        
+    },
+    {
+        path: "/Home",
+        element: <Home />,
         
     },
 ]);
