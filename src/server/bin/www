@@ -28,6 +28,8 @@ server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
 
+
+
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -79,7 +81,101 @@ function onError(error) {
  */
 
 function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-  console.log("Listening on " + bind);
+    const addr = server.address();
+    const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+    console.log("Listening on " + bind);
+
+    /* Backend Testing 
+    var searchAddr = "http://localhost:" + addr.port;
+    console.log(searchAddr);
+
+    fetch(searchAddr + "/api/users/")
+                .then(res => res.json())
+                .then(json => console.log(json));
+
+    fetch(searchAddr + "/api/addUser/Jeremy/password")
+        .then(res => res.json())
+        .then(async function(profile){
+
+            await fetch(searchAddr + "/api/users/")
+                .then(res => res.json())
+                .then(json => console.log(json));
+
+            await fetch(searchAddr + "/api/getStars/" + profile.token)
+                .then(res => res.json())
+                .then(json => console.log(json));
+
+            await fetch(searchAddr + "/api/addStar/" + profile.token + "/273654775")
+                .then(res => res.json())
+                .then(json => console.log(json));
+
+            await fetch(searchAddr + "/api/getStars/" + profile.token)
+                .then(res => res.json())
+                .then(json => console.log(json.starred.nonprofits[0].ein));
+
+            await fetch(searchAddr + "/api/addStar/" + profile.token + "/464923885")
+                .then(res => res.json())
+                .then(json => console.log(json));
+
+            await fetch(searchAddr + "/api/getStars/" + profile.token)
+                .then(res => res.json())
+                .then(json => console.log(json.starred.nonprofits[1].ein));
+
+            await fetch(searchAddr + "/api/removeStar/" + profile.token + "/273654775")
+                .then(res => res.json())
+                .then(json => console.log(json));
+
+            await fetch(searchAddr + "/api/getStars/" + profile.token)
+                .then(res => res.json())
+                .then(json => console.log(json.starred.nonprofits[0].ein));
+
+            await fetch(searchAddr + "/api/addUser/username/abcdefg")
+                .then(res => res.json())
+                .then(async function(data){
+
+                    await fetch(searchAddr + "/api/users/")
+                        .then(res => res.json())
+                        .then(json => console.log(json));
+
+                    await fetch(searchAddr + "/api/addStar/" + data.token + "/273654775")
+                        .then(res => res.json())
+                        .then(json => console.log(json));
+
+                    await fetch(searchAddr + "/api/getStars/" + data.token)
+                        .then(res => res.json())
+                        .then(json => console.log(json.starred.nonprofits[0].ein));
+
+                    await fetch(searchAddr + "/api/removeUser/" + data.token)
+                        .then(res => res.json())
+                        .then(json => console.log(json));
+
+                    await fetch(searchAddr + "/api/getStars/" + data.token)
+                        .then(res => res.json())
+                        .then(json => console.log(json));
+
+                    await fetch(searchAddr + "/api/login/Jeremy/password")
+                        .then(res => res.json())
+                        .then(async function(info){
+
+                            await fetch(searchAddr + "/api/users/")
+                                .then(res => res.json())
+                                .then(json => console.log(json));
+
+                            await fetch(searchAddr + "/api/getStars/" + info.token)
+                                .then(res => res.json())
+                                .then(json => console.log(json.starred.nonprofits[0].ein));
+
+                        });
+
+                    
+
+                });
+
+        });
+
+    
+
+    //*/
 }
+
+
