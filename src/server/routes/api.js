@@ -4,7 +4,8 @@ const path = require("path");
 const loki = require("lokijs");
 const jwt = require("jsonwebtoken");
 
-const keys = require('dotenv').config({path: path.resolve(__dirname, '../.env') }).parsed // Get User Variables
+const keys = require('dotenv').config({path: path.resolve(__dirname, '../env') }).parsed // Get User Variables
+
 
 var db = new loki("Users");
 var users = db.addCollection("users");
@@ -66,6 +67,12 @@ router.get("/login/:name/:hash", function(req, res, next) {
         res.status(400).send({message: "User: " + req.params.name + " does not exists."});
         return;
     }
+    /*let user = users.findOne({ name : {'$eq' : req.params.name} });
+    if (!user) {
+        // If user does not exist, create a new user
+        user = users.insert({ name: req.params.name, hash: req.params.hash, starred: [] });
+    }*/
+
     
     res.send({
         token: jwt.sign(
