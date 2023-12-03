@@ -100,6 +100,7 @@ router.get("/login/:name/:hash", function(req, res, next) {
         res.status(400).send({message: "User: " + req.params.name + " does not exists."});
         return;
     }
+
     else if (users.find({
         '$and': [{ 
             'name' : req.params.name
@@ -110,6 +111,7 @@ router.get("/login/:name/:hash", function(req, res, next) {
         res.status(400).send({message: "Incorrect login information."});
         return;
     }
+
 
     res.send({
         token: jwt.sign(

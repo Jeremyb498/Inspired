@@ -2,11 +2,32 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logoIcon from '../assets/hand_heart_image.svg';  
 import profileIcon from '../assets/Profile_Image.svg';  
-import starIcon from '../assets/star.svg';  // Add your star icon to assets and adjust the path as necessary
+import starIcon from '../assets/star.svg';  
 import profileCircle from '../assets/profile_circle.svg';
 import ".././App.css";
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+
 
 export default function Profile() {
+
+  const navigate = useNavigate();
+    const token = localStorage.getItem('userToken');
+    let username = '';
+
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        username = decodedToken.name;
+    } else {
+        navigate('/Login'); 
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('userToken');
+        navigate('/Login');
+    };
+
+
   return (
     <div className="App">
       <nav className="App-nav">
@@ -29,7 +50,8 @@ export default function Profile() {
           <div className="Profile-icon-container">
             <img src={profileCircle} alt="Profile" className="Profile-icon" />
           </div>
-          <input type="text" value="Username" readOnly className="Profile-username" />
+          <div style={{ marginBottom: '20px' }}>Username: {username}</div> 
+          <button onClick={handleLogout} style={{ backgroundColor: 'orange' }}>Logout</button>
         </div>
 
         <div className="Profile-main">
