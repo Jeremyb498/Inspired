@@ -36,28 +36,6 @@ router.get("/searchTerm/:term", function(req, res, next) {
     //res.send({value: "true"});
 });
 
-router.get("/addUser/:name/:hash", function(req, res, next) {
-    console.log('get "addUser" hit');
-    
-    if (users.find({name : {'$eq' : req.params.name}}).length != 0)
-    {
-        res.status(400).send({message: "User: " + req.params.name + " already exists."});
-        return;
-    }
-
-    users.insert({name: req.params.name, hash: req.params.hash, starred: []})
-    
-    res.send({
-        token: jwt.sign(
-            {
-                name: req.params.name, 
-                hash: req.params.hash
-            }, 
-            keys.JWT_SECRET_KEY
-        )
-    })
-});
-
 /* GET List Of Causes for "searchCause" endpoint. */
 router.get("/listCauses", function(req, res, next) {
     console.log('get "listCauses" route hit');
@@ -122,13 +100,19 @@ router.get("/login/:name/:hash", function(req, res, next) {
         res.status(400).send({message: "User: " + req.params.name + " does not exists."});
         return;
     }
-    /*let user = users.findOne({ name : {'$eq' : req.params.name} });
-    if (!user) {
-        // If user does not exist, create a new user
-        user = users.insert({ name: req.params.name, hash: req.params.hash, starred: [] });
-    }*/
 
-    
+    else if (users.find({
+        '$and': [{ 
+            'name' : req.params.name
+        },{
+            'hash' : req.params.hash
+        }
+    ]}).length == 0) {
+        res.status(400).send({message: "Incorrect login information."});
+        return;
+    }
+
+
     res.send({
         token: jwt.sign(
             {
