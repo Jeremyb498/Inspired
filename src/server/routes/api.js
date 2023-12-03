@@ -4,7 +4,7 @@ const path = require("path");
 const loki = require("lokijs");
 const jwt = require("jsonwebtoken");
 
-const keys = require('dotenv').config({path: path.resolve(__dirname, '../.env') }).parsed // Get User Variables
+const keys = require('dotenv').config({path: path.resolve(__dirname, '../env') }).parsed // Get User Variables
 
 var db = new loki("Users");
 var users = db.addCollection("users");
@@ -58,6 +58,62 @@ router.get("/addUser/:name/:hash", function(req, res, next) {
     })
 });
 
+/* GET List Of Causes for "searchCause" endpoint. */
+router.get("/listCauses", function(req, res, next) {
+    console.log('get "listCauses" route hit');
+
+    // A more complex solution could webscrape this page, but due to the prototype version of this project this will suffice.
+    res.send({causes: listCauses()});
+    
+});
+
+/* GET Search By Cause. */
+router.get("/searchCause/:cause", async function(req, res, next) {
+    console.log('get "searchCause" route hit');
+
+    res.send(await searchCause(req.params.cause));
+});
+
+/* GET Random Nonprofit. AKA Suprise Me Functionality */
+router.get("/supriseMe", async function(req, res, next) {
+    //console.log('get "supriseMe" route hit');
+    
+    // Get Random Cause (index is a random index in the cause array)
+    causes = listCauses();
+    index = Math.floor(Math.random() * causes.length);
+
+    // Get Random Non-Profit (index is a random index in the nonprofit array)
+    data = await searchCause(causes[index]);
+    index = Math.floor(Math.random() * data.nonprofits.length);
+
+    res.send(data.nonprofits[index]);
+    
+});
+
+// Create a user account, returns the same token as the "login" method. Should probably be a post method.
+router.get("/addUser/:name/:hash", function(req, res, next) {
+    console.log('get "addUser" hit');
+    
+    if (users.find({name : {'$eq' : req.params.name}}).length != 0)
+    {
+        res.status(400).send({message: "User: " + req.params.name + " already exists."});
+        return;
+    }
+
+    users.insert({name: req.params.name, hash: req.params.hash, starred: []})
+    
+    res.send({
+        token: jwt.sign(
+            {
+                name: req.params.name, 
+                hash: req.params.hash
+            }, 
+            keys.JWT_SECRET_KEY
+        )
+    })
+});
+
+// Login to user account, returns token needs for remaining user functions.
 router.get("/login/:name/:hash", function(req, res, next) {
     console.log('get "login" hit');
     
@@ -78,6 +134,7 @@ router.get("/login/:name/:hash", function(req, res, next) {
     })
 });
 
+// Delete User Account. Should probably be a post method.
 router.get("/removeUser/:token", async function(req, res, next) {
     console.log('get "removeUser" hit');
     
@@ -99,6 +156,7 @@ router.get("/removeUser/:token", async function(req, res, next) {
     });
 });
 
+// Get Starred Nonprofits
 router.get("/getStars/:token", async function(req, res, next) {
     console.log('get "getStars" hit');
     // Verify User    
@@ -127,6 +185,7 @@ router.get("/getStars/:token", async function(req, res, next) {
     });
 });
 
+// Add Starred Nonprofit. Should probably be a post method.
 router.get("/addStar/:token/:ein", async function(req, res, next) {
     console.log('get "addStar" hit');
     // Verify User
@@ -152,6 +211,7 @@ router.get("/addStar/:token/:ein", async function(req, res, next) {
     });
 });
 
+// Remove Starred Nonprofit. Should probably be a post method.
 router.get("/removeStar/:token/:ein", async function(req, res, next) {
     console.log('get "removeStar" hit');
     // Verify User
@@ -178,4 +238,86 @@ router.get("/removeStar/:token/:ein", async function(req, res, next) {
     });
 });
 
+// Functions used in several places
+
+function listCauses()
+{
+    return( // Retrieved from https://docs.every.org/docs/types#causes on 11-28-2023
+        [
+            "aapi-led",
+            "adoption",
+            "afghanistan",
+            "animals",
+            "art",
+            "athletics",
+            "autism",
+            "black-led",
+            "buddhism",
+            "cancer",
+            "cats",
+            "christianity",
+            "climate",
+            "conservation",
+            "coronavirus",
+            "culture",
+            "dance",
+            "disabilities",
+            "disease",
+            "dogs",
+            "education",
+            "environment",
+            "filmandtv",
+            "food-security",
+            "freepress",
+            "gender-equality",
+            "health",
+            "hinduism",
+            "housing",
+            "humans",
+            "hurricane-ian",
+            "immigrants",
+            "indigenous-led",
+            "indigenous-peoples",
+            "islam",
+            "judaism",
+            "justice",
+            "latine-led",
+            "legal",
+            "lgbt",
+            "libraries",
+            "mental-health",
+            "museums",
+            "music",
+            "oceans",
+            "parks",
+            "poverty",
+            "racial-justice",
+            "radio",
+            "refugees",
+            "religion",
+            "research",
+            "science",
+            "seniors",
+            "space",
+            "theater",
+            "transgender",
+            "ukraine",
+            "veterans",
+            "votingrights",
+            "water",
+            "wildfires",
+            "wildlife",
+            "women-led",
+            "womens-health",
+            "youth"
+        ]
+    )
+}
+
+async function searchCause(cause)
+{
+    // Query every.org API
+    return await fetch("https://partners.every.org/v0.2/browse/" +  cause + "?apiKey=" + keys.EVERY_ORG_API_KEY)
+        .then(res => res.json());
+}
 module.exports = router;
