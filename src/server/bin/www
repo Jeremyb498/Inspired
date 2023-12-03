@@ -85,7 +85,7 @@ function onListening() {
     const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
     console.log("Listening on " + bind);
 
-    /* Backend Testing 
+    /*/Backend Testing 
     var searchAddr = "http://localhost:" + addr.port;
     console.log(searchAddr);
 
@@ -164,6 +164,49 @@ function onListening() {
                             await fetch(searchAddr + "/api/getStars/" + info.token)
                                 .then(res => res.json())
                                 .then(json => console.log(json.starred.nonprofits[0].ein));
+
+                            await fetch(searchAddr + "/api/listCauses")
+                                .then(res => res.json())
+                                .then(async function(json){
+                                    console.log(json)
+
+                                    await fetch(searchAddr + "/api/searchCause/" + json.causes[0])
+                                        .then(res => res.json())
+                                        .then(json => console.log(json))
+
+                                    nonprofits = [];
+
+                                    //while (true)
+                                    //{
+                                        noDuplicate = true;
+                                        while (noDuplicate)
+                                        {
+                                            await fetch(searchAddr + "/api/supriseMe")
+                                                .then(res => res.json())
+                                                .then(json => {
+
+                                                    noDuplicate = !nonprofits.indexOf(json.ein) >= 0;
+
+                                                    if (!noDuplicate)
+                                                    {
+                                                        console.log("Duplicate after " + nonprofits.length + "entries");
+                                                    } 
+                                                    else
+                                                    {
+                                                        nonprofits.push(json.ein);
+
+                                                        if (nonprofits.length % 100 == 0)
+                                                        {
+                                                            console.log("Reached " + nonprofits.length + " random Nonprofits.");
+                                                        }
+                                                    }
+                                                })
+
+                                        }
+
+                                        await new Promise(resolve => setTimeout(resolve, 10000));
+                                    //}
+                                });
 
                         });
 
