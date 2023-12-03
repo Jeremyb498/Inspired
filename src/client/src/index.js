@@ -8,7 +8,8 @@ import * as serviceWorker from './serviceWorker';
 import Root from "./routes/root";
 import About from "./routes/about";
 import Home from "./routes/home";
-import Profile from './routes/profile'
+import Profile from './routes/profile';
+import Login from './routes/login'
 
 import {
     createBrowserRouter,
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
         path: "/Profile",
         element: <Profile />,
 
+      },
+      {
+        path: "/Login",
+        element: <Login />,
       },
 ]);
 

@@ -6,21 +6,23 @@ import profileIcon from '../assets/Profile_Image.svg';
 
 
 export default function Home() {
+  const isLoggedIn = localStorage.getItem('userToken') !== null;
 
 return (
+
     <div className="App">
-      <nav className="App-nav">
+    <nav className="App-nav">
         <Link to="/" className="App-nav-logo">
-          <img src={logoIcon} alt="Inspired logo" className="App-logo" />
-          <span>Inspired</span>
+            <img src={logoIcon} alt="Inspired logo" className="App-logo" />
+            <span>Inspired</span>
         </Link>
         <Link to="/Search" className="App-nav-item">Search</Link>
-        <Link to="/Profile" className="App-nav-item"> 
-          <img src={profileIcon} alt="Profile" className="App-profile-icon" />
+        <Link to={isLoggedIn ? "/Profile" : "/Login"} className="App-nav-item">
+            <img src={profileIcon} alt="Profile" className="App-profile-icon" />
         </Link>
-      </nav>
+    </nav>
 
-      
+
       <header className="App-header">
         <h1>Home</h1>
         <p>Welcome to Inspired!</p>
