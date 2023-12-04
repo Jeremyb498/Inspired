@@ -8,25 +8,23 @@ import ".././App.css";
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-
 export default function Profile() {
-
   const navigate = useNavigate();
-    const token = localStorage.getItem('userToken');
-    let username = '';
+  const token = localStorage.getItem('userToken');
+  let username = '';
 
-    if (token) {
-        const decodedToken = jwtDecode(token);
-        username = decodedToken.name;
-    } else {
-        navigate('/Login'); 
-    }
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    username = decodedToken.name;
+  }
 
-    const handleLogout = () => {
-        localStorage.removeItem('userToken');
-        navigate('/Login');
-    };
+  const handleLogout = () => {
+    localStorage.removeItem('userToken');
+    navigate('/Login');
+  };
 
+  // Retrieve favorites from local storage
+  const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
   return (
     <div className="App">
@@ -35,7 +33,9 @@ export default function Profile() {
           <img src={logoIcon} alt="Inspired logo" className="App-logo" />
           Inspired
         </Link>
-        <Link to="/Search" className="App-nav-item">Search</Link>
+        <Link to="/Search" className="App-nav-item">
+          Search
+        </Link>
         <Link to="/Profile" className="App-nav-item">
           <img src={profileIcon} alt="Profile" className="App-profile-icon" />
         </Link>
@@ -44,14 +44,16 @@ export default function Profile() {
       <header className="App-header">
         <h1>Profile</h1>
       </header>
-      
+
       <div className="Profile-container">
         <div className="Profile-side">
           <div className="Profile-icon-container">
             <img src={profileCircle} alt="Profile" className="Profile-icon" />
           </div>
-          <div style={{ marginBottom: '20px' }}>Username: {username}</div> 
-          <button onClick={handleLogout} style={{ backgroundColor: 'orange' }}>Logout</button>
+          <div style={{ marginBottom: '20px' }}>Username: {username}</div>
+          <button onClick={handleLogout} style={{ backgroundColor: 'orange' }}>
+            Logout
+          </button>
         </div>
 
         <div className="Profile-main">
@@ -59,8 +61,27 @@ export default function Profile() {
             <img src={starIcon} alt="Stars" className="Profile-star-icon" />
             <h2>Stars</h2>
           </div>
-          <hr className="Profile-divider" />
-          {/* Placeholder for starred nonprofits */}
+          {storedFavorites.length === 0 && <p>No favorites yet.</p>}
+          {storedFavorites.map((favorite, index) => (
+            <div key={favorite.name} className="starred-nonprofit">
+              <a href={favorite.profileUrl} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={favorite.image || favorite.logoUrl}
+                  alt={favorite.name}
+                  className="starred-nonprofit-image"
+                />
+              </a>
+              <div className="starred-nonprofit-details">
+                <h3>
+                  <a href={favorite.profileUrl} target="_blank" rel="noopener noreferrer">
+                    {favorite.name}
+                  </a>
+                </h3>
+                {/* Additional details if needed */}
+              </div>
+              {index !== storedFavorites.length - 1 && <hr />}
+            </div>
+          ))}
         </div>
       </div>
     </div>
