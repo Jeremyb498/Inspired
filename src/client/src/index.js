@@ -10,6 +10,8 @@ import About from "./routes/about";
 import Home from "./routes/home";
 import Profile from './routes/profile';
 import Login from './routes/login'
+import Search from './routes/search'
+import Result from './routes/result'
 
 import {
     createBrowserRouter,
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
       {
         path: "/Login",
         element: <Login />,
+      },
+      {
+        path: "/Search",
+        element: <Search />,
+      },
+      {
+        path: "/Result",
+        element: <Result />,
       },
 ]);
 
